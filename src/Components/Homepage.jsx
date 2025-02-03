@@ -13,7 +13,7 @@ const Homepage = () => {
   const [UpdateModalShow, setUpdateModalShow] = useState(false);
   const [data, getData] = useState([]);
   const [updateId, setUpdateId] = useState();
-  const [bool, setBool] =useState ();
+  // const [bool, setBool] =useState ();
   
 
   const [UpdateValues, setUpdateValues] = useState({
@@ -97,28 +97,26 @@ const Homepage = () => {
   }
 
   // console.log(1,UpdateValues.done);
-  const toggleHideShow = (valueId) => {
-    (async()=>{
-      const fetchtogglevalue = await axios.get(`https://65964c386bb4ec36ca024a58.mockapi.io/crud-app/todo_list/${valueId}`);
+  const toggleHideShow = async (valueId) => {
+    try {
+      const fetchToggleValue = await axios.get(`https://65964c386bb4ec36ca024a58.mockapi.io/crud-app/todo_list/${valueId}`);
 
-      setUpdateValues({...UpdateValues,done:fetchtogglevalue.data.done})
-      console.log(2,fetchtogglevalue.data);
-    })();
-    console.log("UpdateValues.done",UpdateValues.done)
-    setBool(!UpdateValues.done);
-    
-    (async()=>{
-      await axios.put(`https://65964c386bb4ec36ca024a58.mockapi.io/crud-app/todo_list/${valueId}`,
-        {
-          done:bool,
-        }
-      )
+      // setUpdateValues({ ...UpdateValues, done: fetchToggleValue.data.done });
+      // setBool(!fetchToggleValue.data.done);
+      
+      await axios.put(`https://65964c386bb4ec36ca024a58.mockapi.io/crud-app/todo_list/${valueId}`, {
+        done: !fetchToggleValue.data.done,
+      });
+      
       fetchData();
-    })();
-
+      console.log(2, fetchToggleValue.data);
+    } catch (error) {
+      console.error('err',error);
+    }
   };
 
-  console.log(data);
+
+  // console.log(data);
   return (
     <>
     <div className="container">
